@@ -107,14 +107,15 @@ def indice(valor, casas=2):
 CSS = '''
 <style>
 .tbl {border-collapse: collapse; font-family: 'Segoe UI', Arial, sans-serif;
-      font-size: 13px; margin: 6px 0 16px 0; background: #fff;}
-.tbl th {background: #0f4c5c; color: #fff; text-align: left; padding: 7px 12px;
+      font-size: 13px; margin: 6px 0 16px 0; background: #ffffff; color: #12232e;}
+.tbl th {background: #0f4c5c; color: #ffffff; text-align: left; padding: 7px 12px;
          font-weight: 600; white-space: nowrap;}
-.tbl td {padding: 6px 12px; border-bottom: 1px solid #e3e8ec;}
-.tbl tr:nth-child(even) td {background: #f6f9fa;}
+.tbl td {padding: 6px 12px; border-bottom: 1px solid #e3e8ec;
+         background: #ffffff; color: #12232e;}
+.tbl tr:nth-child(even) td {background: #f6f9fa; color: #12232e;}
 .num {text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap;}
-.ok  {color: #1b7f5a; font-weight: 700;}
-.err {color: #b23b3b; font-weight: 700;}
+.ok  {color: #1b7f5a !important; font-weight: 700;}
+.err {color: #b23b3b !important; font-weight: 700;}
 </style>
 '''
 
