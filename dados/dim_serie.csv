@@ -1,0 +1,24 @@
+serie,grupo,subgrupo,nivel,ordem,ordem_origem
+Agropecuária - total,Agropecuária,Agropecuária,Setor,1,1
+Indústria - total,Indústria,Indústria,Setor,2,2
+Serviços - total,Serviços,Serviços,Setor,3,7
+Valor adicionado a preços básicos,Agregados,Valor adicionado,Agregado,4,15
+Impostos líquidos sobre produtos,Agregados,Impostos líquidos,Agregado,5,16
+PIB a preços de mercado,Agregados,PIB,Agregado,6,17
+Despesa de consumo das famílias,Demanda,Consumo das famílias,Componente,7,18
+Despesa de consumo da administração pública,Demanda,Consumo da administração pública,Componente,8,19
+Formação bruta de capital fixo,Demanda,Investimento (FBCF),Componente,9,20
+Variação de estoque,Demanda,Variação de estoque,Componente,10,23
+Exportação de bens e serviços,Setor externo,Exportação,Componente,11,21
+Importação de bens e serviços (-),Setor externo,Importação,Componente,12,22
+Indústrias extrativas,Indústria,Extrativa,Subsetor,21,3
+Indústrias de transformação,Indústria,Transformação,Subsetor,22,4
+"Eletricidade e gás, água, esgoto, atividades de gestão de resíduos",Indústria,"Eletricidade, gás e saneamento",Subsetor,23,5
+Construção,Indústria,Construção,Subsetor,24,6
+Comércio,Serviços,Comércio,Subsetor,31,8
+"Transporte, armazenagem e correio",Serviços,Transporte e correio,Subsetor,32,9
+Informação e comunicação,Serviços,Informação e comunicação,Subsetor,33,10
+"Atividades financeiras, de seguros e serviços relacionados",Serviços,Financeiras e seguros,Subsetor,34,11
+Atividades imobiliárias,Serviços,Imobiliárias,Subsetor,35,12
+Outras atividades de serviços,Serviços,Outros serviços,Subsetor,36,13
+"Administração, saúde e educação públicas e seguridade social",Serviços,"Administração pública, saúde e educação",Subsetor,37,14

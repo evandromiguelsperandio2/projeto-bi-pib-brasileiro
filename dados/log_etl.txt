@@ -1,0 +1,68 @@
+LOG DE ETL - PROJETO BI / TEMA 12 - PIB BRASILEIRO
+Data de execução: 2026-10-23
+Data de acesso às fontes: 2026-10-20
+
+1. FONTES (SIDRA/IBGE)
+   - Tabela 1620: Variável - Série encadeada do índice de volume trimestral (Base: média 1995 = 100)
+     URL: https://sidra.ibge.gov.br/tabela/1620
+     Arquivo original: tabela1620.csv | acesso: 2026-10-20
+     Arquivo tratado: fato_pib_volume.csv
+   - Tabela 1621: Variável - Série encadeada do índice de volume trimestral com ajuste sazonal (Base: média 1995 = 100)
+     URL: https://sidra.ibge.gov.br/tabela/1621
+     Arquivo original: tabela1621.csv | acesso: 2026-10-20
+     Arquivo tratado: fato_pib_volume_sazonal.csv
+   - Tabela 1846: Variável - Valores a preços correntes
+     URL: https://sidra.ibge.gov.br/tabela/1846
+     Arquivo original: tabela1846.csv | acesso: 2026-10-20
+     Arquivo tratado: fato_pib_corrente.csv
+   - Tabela 5932: Variável - Taxa trimestral (em relação ao mesmo período do ano anterior)
+     URL: https://sidra.ibge.gov.br/tabela/5932
+     Arquivo original: tabela5932.csv | acesso: 2026-10-20
+     Arquivo tratado: fato_pib_taxa.csv
+
+2. LEITURA E ESTRUTURA
+   - CSV do SIDRA lido com delimitador ';' e codificação UTF-8 com BOM.
+   - Layout largo: linha 4 = trimestres, linha 5 = séries, linha 6 = valores.
+   - Cada série ocupa 2 colunas (valor + unidade); o rótulo do trimestre
+     aparece só na primeira coluna do bloco e foi propagado.
+   - Saída em UTF-8, delimitador ',' e decimal '.', formato neutro: no Power BI
+     importar com Culture en-US; no Excel usar Dados > De Texto/CSV.
+
+3. TRANSFORMAÇÕES
+   - Layout largo convertido para longo (uma linha por série x trimestre).
+   - Números no padrão brasileiro convertidos para decimal (vírgula -> ponto).
+   - valor_txt preservado para auditoria; valor convertido para numérico.
+   - Derivados: trimestre (1-4), ano, data (1º dia do trimestre).
+   - Séries mantidas exatamente como no SIDRA (sem agregações).
+   - Tabela 5932: usada a variável 'Taxa trimestral (em relação ao mesmo
+     período do ano anterior)', conforme recorte definido.
+
+4. VALIDAÇÕES EXECUTADAS
+   - 1620: 2332 registros = 22 séries x 106 trimestres;
+     duplicadas: 0; períodos irregulares: 0; ausentes: 0; símbolos especiais descartados: 0; não numéricos: 0; unidades: ['Número-índice'].
+   - 1621: 2226 registros = 21 séries x 106 trimestres;
+     duplicadas: 0; períodos irregulares: 0; ausentes: 0; símbolos especiais descartados: 0; não numéricos: 0; unidades: ['Número-índice'].
+   - 1846: 2438 registros = 23 séries x 106 trimestres;
+     duplicadas: 0; períodos irregulares: 0; ausentes: 0; símbolos especiais descartados: 0; não numéricos: 0; unidades: ['Milhões de Reais'].
+   - 5932: 2332 registros = 22 séries x 106 trimestres;
+     duplicadas: 0; períodos irregulares: 0; ausentes: 0; símbolos especiais descartados: 0; não numéricos: 0; unidades: ['%'].
+
+5. LIMITAÇÕES E OBSERVAÇÕES
+   - 2026 tem apenas 1º e 2º trimestres: comparações anuais de 2026 são parciais.
+   - Importação (1846) é armazenada com sinal positivo; ao compor a demanda
+     (consumo + governo + FBCF + estoque + exportações - importações), subtrair.
+   - 1846 é expressa em R$ milhões inteiros (sem centavos); as demais séries
+     têm duas casas decimais. São tipos numéricos, sem perda de informação.
+   - Tabela 1846 inclui 'Variação de estoque' (23 séries); 1620/5932 têm 22 e
+     1621 tem 21 (não há impostos líquidos nem variação de estoque na 1621).
+   - A série 1621 é ajustada sazonalmente; não deve ser somada com a 1620.
+   - Valores correntes (1846) não são comparáveis em nível entre anos;
+     para evolução real usar 1620/1621.
+
+6. ARQUIVOS GERADOS
+   - fato_pib_volume.csv (1620)
+   - fato_pib_volume_sazonal.csv (1621)
+   - fato_pib_corrente.csv (1846)
+   - fato_pib_taxa.csv (5932)
+   - dim_tempo.csv / dim_serie.csv
+   - log_etl.txt
