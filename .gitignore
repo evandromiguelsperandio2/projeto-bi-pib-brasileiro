@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Power BI / Office
+*.pbix~
+~$*
+*.tmp
+*.bak
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Material de terceiros (PDFs da disciplina) — mantido apenas localmente
+referencias/

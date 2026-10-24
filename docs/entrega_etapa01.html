@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Etapa 01 — Tema 12 PIB Brasileiro</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm 12mm 14mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.34;
+    color: #1f2937;
+    margin: 0;
+  }
+  header {
+    border-bottom: 3px solid #0f3d5e;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .kicker {
+    font-size: 8pt;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #0f6b6b;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  h1 {
+    font-size: 19pt;
+    line-height: 1.08;
+    color: #0f3d5e;
+    margin: 0 0 3px 0;
+  }
+  .subtitle {
+    font-size: 10.4pt;
+    color: #4b5563;
+    margin: 0 0 6px 0;
+  }
+  .meta {
+    font-size: 9pt;
+    color: #374151;
+    background: #f3f6f8;
+    border: 1px solid #dbe3e8;
+    border-radius: 5px;
+    padding: 7px 10px;
+  }
+  .meta strong { color: #0f3d5e; }
+  .question {
+    background: #0f3d5e;
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 9px 0 12px 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  .question span {
+    display: block;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a7d8d8;
+    margin-bottom: 3px;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 12.2pt;
+    color: #0f3d5e;
+    margin: 12px 0 4px 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #cbd5e1;
+    page-break-after: avoid;
+  }
+  h2.new-page { page-break-before: always; }
+  h3 {
+    font-size: 10pt;
+    color: #0f6b6b;
+    margin: 8px 0 3px 0;
+    page-break-after: avoid;
+  }
+  p { margin: 4px 0; }
+  ul { margin: 3px 0 5px 17px; padding: 0; }
+  li { margin: 1.5px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.3pt;
+    margin: 5px 0 6px 0;
+    page-break-inside: avoid;
+  }
+  th {
+    background: #0f3d5e;
+    color: #ffffff;
+    text-align: left;
+    padding: 5px 6px;
+    font-weight: 600;
+    vertical-align: bottom;
+  }
+  td {
+    padding: 4px 6px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f8fafb; }
+  .kv td:first-child {
+    width: 27%;
+    font-weight: 600;
+    color: #0f3d5e;
+    background: #f3f6f8;
+  }
+  .note {
+    font-size: 8.3pt;
+    color: #4b5563;
+    background: #fff8e6;
+    border-left: 4px solid #d97706;
+    padding: 5px 8px;
+    margin: 6px 0;
+    page-break-inside: avoid;
+  }
+  .formula {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.4pt;
+    background: #f3f6f8;
+    border-left: 4px solid #0f6b6b;
+    padding: 6px 9px;
+    margin: 5px 0;
+    white-space: pre-wrap;
+    page-break-inside: avoid;
+  }
+  .indicator-main {
+    border: 1px solid #0f6b6b;
+    border-left: 6px solid #0f6b6b;
+    border-radius: 5px;
+    padding: 7px 10px;
+    margin: 6px 0;
+    background: #f0fafa;
+    page-break-inside: avoid;
+  }
+  .indicator-main .label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #0f6b6b;
+    font-weight: 700;
+  }
+  .indicator-main .name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0f3d5e;
+    margin: 2px 0;
+  }
+  .two-col {
+    display: flex;
+    gap: 14px;
+    page-break-inside: avoid;
+  }
+  .two-col > div { flex: 1; }
+  .tag {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #0f3d5e;
+    background: #dbeafe;
+    border-radius: 10px;
+    padding: 1px 7px;
+    margin-right: 4px;
+  }
+  footer {
+    margin-top: 16px;
+    padding-top: 7px;
+    border-top: 1px solid #cbd5e1;
+    font-size: 7.8pt;
+    color: #6b7280;
+  }
+  .avoid-break { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Business Intelligence · Avaliação Final · Etapa 01</div>
+  <h1>Tema 12 — PIB Brasileiro</h1>
+  <div class="subtitle">Ficha de fontes, recorte, público-alvo e indicadores</div>
+  <div class="meta">
+    <strong>Aluno:</strong> Evandro Miguel &nbsp;·&nbsp;
+    <strong>Turma:</strong> 1 &nbsp;·&nbsp;
+    <strong>Apresentação:</strong> 17/11/2026 &nbsp;·&nbsp;
+    <strong>Data de acesso aos dados:</strong> 20/10/2026
+  </div>
+</header>
+
+<div class="question">
+  <span>Pergunta norteadora</span>
+  Como o PIB brasileiro evoluiu e como os principais setores participaram desse desempenho?
+</div>
+
+<h2>1. Base utilizada</h2>
+<p>
+  A base é composta por quatro tabelas das <strong>Contas Nacionais Trimestrais do IBGE</strong>,
+  extraídas do <strong>SIDRA</strong>. O recorte cobre o Brasil, de <strong>2000-T1 a 2026-T2</strong>
+  (106 trimestres), com frequência trimestral. As quatro tabelas foram escolhidas porque cobrem
+  dimensões diferentes do mesmo fenômeno: volume real, sazonalidade, valores correntes e taxas
+  de variação.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:8%">Tabela</th>
+      <th style="width:31%">Variável</th>
+      <th style="width:15%">Unidade</th>
+      <th style="width:46%">Uso no projeto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1620</strong></td>
+      <td>Índice de volume trimestral, série encadeada (1995 = 100)</td>
+      <td>Número-índice</td>
+      <td>Evolução real do PIB e dos setores; crescimento anual e YoY; CAGR.</td>
+    </tr>
+    <tr>
+      <td><strong>1621</strong></td>
+      <td>Índice de volume trimestral com ajuste sazonal (1995 = 100)</td>
+      <td>Número-índice</td>
+      <td>Variação trimestre contra trimestre (QoQ), sem efeito sazonal.</td>
+    </tr>
+    <tr>
+      <td><strong>1846</strong></td>
+      <td>Valores a preços correntes</td>
+      <td>R$ milhões</td>
+      <td>PIB nominal, pesos setoriais e participação no valor adicionado.</td>
+    </tr>
+    <tr>
+      <td><strong>5932</strong></td>
+      <td>Taxa trimestral de variação do volume (vs. mesmo trimestre do ano anterior)</td>
+      <td>%</td>
+      <td>Indicador principal de crescimento e validação dos cálculos.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="note">
+  <strong>Data de acesso:</strong> 20/10/2026. Fontes:
+  sidra.ibge.gov.br/tabela/1620 · /1621 · /1846 · /5932.
+  Dados públicos; citar “Fonte: IBGE — SIDRA” em todos os visuais.
+</p>
+
+<h3>Recorte</h3>
+<table class="kv">
+  <tr><td>País / abrangência</td><td>Brasil — Contas Nacionais Trimestrais (IBGE)</td></tr>
+  <tr><td>Período</td><td>1º trimestre de 2000 a 2º trimestre de 2026 (106 trimestres)</td></tr>
+  <tr><td>Frequência</td><td>Trimestral</td></tr>
+  <tr><td>Unidade de análise</td><td>Série econômica × trimestre</td></tr>
+  <tr><td>Atualização</td><td>Trimestral (sujeita a revisões do IBGE)</td></tr>
+  <tr><td>Licença / uso</td><td>Dados públicos; citar a fonte e a data de acesso</td></tr>
+</table>
+
+<h2 class="new-page">2. Tabelas e colunas</h2>
+
+<h3>2.1 Estrutura original (SIDRA)</h3>
+<p>
+  Os arquivos vêm em formato <strong>largo</strong>: cada trimestre ocupa um bloco de colunas e cada
+  série ocupa duas colunas (valor + unidade). O rótulo do trimestre aparece apenas na primeira
+  coluna do bloco. A linha 4 identifica os trimestres, a linha 5 as séries e a linha 6 os valores.
+</p>
+<ul>
+  <li><strong>1620:</strong> 22 séries × 106 trimestres = 2.332 registros.</li>
+  <li><strong>1621:</strong> 21 séries × 106 trimestres = 2.226 registros.</li>
+  <li><strong>1846:</strong> 23 séries × 106 trimestres = 2.438 registros.</li>
+  <li><strong>5932:</strong> 22 séries × 106 trimestres = 2.332 registros.</li>
+</ul>
+
+<h3>2.2 Base tratada (formato longo)</h3>
+<p>
+  O ETL converte as quatro tabelas para o mesmo esquema, com uma linha por série × trimestre.
+  Isso permite relacionar as tabelas no Power BI por <code>serie</code> e <code>data</code>.
+</p>
+<table>
+  <thead>
+    <tr><th style="width:18%">Coluna</th><th style="width:12%">Tipo</th><th>Descrição</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>trimestre_txt</code></td><td>Texto</td><td>Rótulo original, ex.: “1º trimestre 2000”.</td></tr>
+    <tr><td><code>serie</code></td><td>Texto</td><td>Nome da série, ex.: “PIB a preços de mercado”.</td></tr>
+    <tr><td><code>valor_txt</code></td><td>Texto</td><td>Valor original do SIDRA, preservado para auditoria.</td></tr>
+    <tr><td><code>unidade</code></td><td>Texto</td><td>Número-índice, % ou R$ milhões.</td></tr>
+    <tr><td><code>valor</code></td><td>Decimal</td><td>Valor numérico convertido (vírgula → ponto).</td></tr>
+    <tr><td><code>trimestre</code></td><td>Inteiro</td><td>1 a 4.</td></tr>
+    <tr><td><code>ano</code></td><td>Inteiro</td><td>2000 a 2026.</td></tr>
+    <tr><td><code>data</code></td><td>Data</td><td>Primeiro dia do trimestre (ex.: 2000-04-01 para o 2º trimestre).</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Dimensões compartilhadas:</strong></p>
+<ul>
+  <li><code>dim_tempo</code>: <code>data</code>, <code>ano</code>, <code>trimestre</code>,
+      <code>trimestre_txt</code>, <code>ano_trimestre</code>.</li>
+  <li><code>dim_serie</code>: <code>serie</code>, <code>grupo</code>, <code>subgrupo</code>,
+      <code>nivel</code>, <code>ordem</code>.</li>
+</ul>
+
+<h3>2.3 Séries analisadas (23 no total)</h3>
+<table>
+  <thead>
+    <tr><th style="width:22%">Grupo</th><th>Séries</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Agregados</strong> (3)</td>
+      <td>PIB a preços de mercado; Valor adicionado a preços básicos; Impostos líquidos sobre produtos.</td>
+    </tr>
+    <tr>
+      <td><strong>Setores</strong> (3)</td>
+      <td>Agropecuária - total; Indústria - total; Serviços - total.</td>
+    </tr>
+    <tr>
+      <td><strong>Subsetores da indústria</strong> (4)</td>
+      <td>Indústrias extrativas; Indústrias de transformação; Eletricidade e gás, água, esgoto, atividades de gestão de resíduos; Construção.</td>
+    </tr>
+    <tr>
+      <td><strong>Subsetores de serviços</strong> (7)</td>
+      <td>Comércio; Transporte, armazenagem e correio; Informação e comunicação; Atividades financeiras, de seguros e serviços relacionados; Atividades imobiliárias; Outras atividades de serviços; Administração, saúde e educação públicas e seguridade social.</td>
+    </tr>
+    <tr>
+      <td><strong>Demanda</strong> (6)</td>
+      <td>Despesa de consumo das famílias; Despesa de consumo da administração pública; Formação bruta de capital fixo; Variação de estoque; Exportação de bens e serviços; Importação de bens e serviços (-).</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="note">
+  <strong>Atenção à comparabilidade:</strong> a 1846 tem 23 séries (inclui “Variação de estoque”);
+  a 1620 e a 5932 têm 22; a 1621 tem 21 (não traz impostos líquidos nem variação de estoque).
+  O cruzamento deve ser feito por <code>dim_serie</code>, tratando as ausências.
+</p>
+
+<h2>3. Público-alvo e decisão apoiada</h2>
+<div class="two-col">
+  <div>
+    <p><span class="tag">PÚBLICO</span></p>
+    <p>
+      <strong>Analista de conjuntura econômica ou gestor público de planejamento</strong>
+      (por exemplo, técnico de secretaria de planejamento ou de fazenda).
+    </p>
+  </div>
+  <div>
+    <p><span class="tag">DECISÃO</span></p>
+    <p>
+      Identificar <strong>quais setores sustentam o crescimento</strong> e onde há perda de
+      dinamismo, para orientar a priorização de políticas públicas e a alocação de investimentos.
+    </p>
+  </div>
+</div>
+<p>
+  O dashboard deve responder, em poucos segundos: <em>“o PIB está crescendo?”</em>,
+  <em>“quem está puxando o crescimento?”</em> e <em>“isso mudou nos últimos anos?”</em>.
+  É uma leitura trimestral de conjuntura, não uma análise de empresas ou de municípios.
+</p>
+
+<h2 class="new-page">4. Indicadores</h2>
+
+<div class="indicator-main">
+  <div class="label">Indicador principal</div>
+  <div class="name">Variação real do PIB — % contra o mesmo trimestre do ano anterior (YoY)</div>
+  <div>Fonte: tabela 5932 (taxa oficial) ou cálculo pela 1620. Unidade: %. Periodicidade: trimestral.</div>
+</div>
+
+<div class="indicator-main">
+  <div class="label">Indicador que responde diretamente à pergunta</div>
+  <div class="name">Contribuição setorial ao crescimento — pontos percentuais (p.p.)</div>
+  <div>
+    Combina o crescimento real do setor (1620) com o peso do setor no valor adicionado do
+    mesmo trimestre do ano anterior (1846). A soma das contribuições explica o crescimento.
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:4%">#</th>
+      <th style="width:25%">Indicador</th>
+      <th style="width:42%">Fórmula / cálculo</th>
+      <th style="width:9%">Unidade</th>
+      <th style="width:20%">Fonte</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Variação real do PIB (YoY)</td>
+      <td>(I<sub>t</sub> / I<sub>t−4</sub> − 1) × 100</td>
+      <td>%</td>
+      <td>1620 / 5932</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Contribuição setorial ao crescimento</td>
+      <td>(I<sub>s,t</sub> / I<sub>s,t−4</sub> − 1) × (VA<sub>s,t−4</sub> / VA<sub>total,t−4</sub>) × 100</td>
+      <td>p.p.</td>
+      <td>1620 + 1846</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Participação setorial no valor adicionado</td>
+      <td>(VA<sub>s,t</sub> / VA<sub>total,t</sub>) × 100</td>
+      <td>%</td>
+      <td>1846</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Variação trimestre contra trimestre (QoQ)</td>
+      <td>(I<sub>saz,t</sub> / I<sub>saz,t−1</sub> − 1) × 100</td>
+      <td>%</td>
+      <td>1621</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>PIB nominal</td>
+      <td>Soma dos quatro trimestres do ano</td>
+      <td>R$ milhões</td>
+      <td>1846</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Deflator implícito do PIB</td>
+      <td>(PIB nominal<sub>t</sub> / índice de volume<sub>t</sub>), normalizado em 2000 = 100</td>
+      <td>índice</td>
+      <td>1846 + 1620</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Validação:</strong> a soma das contribuições de agropecuária, indústria e serviços fica
+próxima da variação real do valor adicionado; a diferença para o PIB são os impostos líquidos.
+Em 2025, as contribuições somam +2,38 p.p. e o valor adicionado cresceu +2,39%.</p>
+
+<h2>5. Justificativas metodológicas</h2>
+<ul>
+  <li>
+    <strong>Real × nominal:</strong> a pergunta é sobre evolução e desempenho, então a análise
+    principal usa <strong>volume (1620/1621)</strong>. Os valores correntes (1846) entram apenas
+    para tamanho, pesos e participações; não são comparados em nível entre anos.
+  </li>
+  <li>
+    <strong>5932:</strong> foi escolhida a <strong>taxa trimestral contra o mesmo trimestre do ano
+    anterior</strong>. As opções “acumulada em quatro trimestres” e “acumulada no ano” não foram
+    carregadas para evitar métricas com janelas diferentes no mesmo visual.
+  </li>
+  <li>
+    <strong>1621:</strong> usada somente para QoQ. A série é ajustada sazonalmente e não deve ser
+    somada com a 1620 nem usada para totais anuais.
+  </li>
+  <li>
+    <strong>Recorte 2000–2026:</strong> cobre mais de 25 anos e quatro ciclos relevantes —
+    expansão dos anos 2000, recessão de 2015–16, pandemia de 2020 e retomada de 2021–25.
+    O IPEADATA é fonte complementar e não foi necessário para este recorte.
+  </li>
+</ul>
+
+<h2>6. Limitações e cuidados</h2>
+<ul>
+  <li><strong>2026 está incompleto:</strong> há somente 1º e 2º trimestres; não calcular “ano fechado” de 2026.</li>
+  <li><strong>Revisões:</strong> o IBGE revisa as Contas Nacionais; registrar a data de acesso e reexecutar o ETL.</li>
+  <li><strong>Séries diferentes:</strong> 21, 22 e 23 séries, conforme a tabela; usar <code>dim_serie</code>.</li>
+  <li><strong>Variação de estoque:</strong> pode ser negativa e volátil; não interpretar como participação.</li>
+  <li><strong>Não somar índices nem percentuais:</strong> somas só fazem sentido em R$ correntes.</li>
+</ul>
+
+<h2>7. Anexos da entrega</h2>
+<p>
+  <strong>Bases originais:</strong> <code>dados_originais/</code> (tabela1620.csv, tabela1621.csv,
+  tabela1846.csv, tabela5932.csv). &nbsp;<strong>Bases tratadas:</strong> <code>dados/</code>
+  (4 fatos + dim_tempo + dim_serie). &nbsp;<strong>ETL:</strong> <code>scripts/transformar_sidra.py</code>
+  e <code>dados/log_etl.txt</code>. &nbsp;<strong>Documentos:</strong> <code>docs/ficha_fontes.md</code>
+  e <code>docs/analise_e_plano.md</code>.
+</p>
+
+<footer>
+  Fonte: IBGE — SIDRA, tabelas 1620, 1621, 1846 e 5932. Acesso em 20/10/2026.
+  Projeto de Business Intelligence — Tema 12 — Evandro Miguel — Turma 1.
+</footer>
+
+</body>
+</html>
