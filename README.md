@@ -22,7 +22,8 @@ projeto_pib/
 │   ├── planilha_pib.xlsx            # a mesma base em Excel, já formatada
 │   └── log_etl.txt                  # log de decisões e validações (Etapa 02)
 ├── notebooks/
-│   └── etapa02_etl.ipynb            # Etapa 02 executável: inspeção, decisões, validação
+│   ├── etapa02_etl.ipynb            # Etapa 02 executável: inspeção, decisões, validação
+│   └── etapa02_etl.html             # mesma versão para leitura sem Jupyter
 ├── scripts/
 │   ├── transformar_sidra.py         # ETL reproduzível dos CSV do SIDRA
 │   └── gerar_planilha.py            # gera a planilha .xlsx a partir dos CSV tratados

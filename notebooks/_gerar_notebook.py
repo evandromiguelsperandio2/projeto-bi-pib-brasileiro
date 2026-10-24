@@ -58,7 +58,7 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 import transformar_sidra as etl
 
 pd.set_option("display.max_columns", 40)
-print("Raiz do projeto:", RAIZ)
+print("Projeto:", RAIZ.name)
 print("Python:", sys.version.split()[0], "| pandas:", pd.__version__)
 print("Originais encontrados:", sorted(p.name for p in (RAIZ / "dados_originais").glob("*.csv")))
 """)
@@ -576,7 +576,7 @@ caminho_log = RAIZ / "dados" / "log_etl.txt"
 conteudo = caminho_log.read_text(encoding="utf-8")
 print(conteudo)
 print("-" * 70)
-print(f"Log gravado em: {caminho_log}")
+print(f"Log gravado em: {caminho_log.relative_to(RAIZ)}")
 print(f"Linhas: {len(conteudo.splitlines())} | Tamanho: {caminho_log.stat().st_size} bytes")
 """)
 

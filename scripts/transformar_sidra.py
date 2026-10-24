@@ -441,7 +441,11 @@ def executar(indir: Path, outdir: Path) -> list[tuple[str, dict, dict]]:
     ]
     (outdir / "log_etl.txt").write_text("\n".join(linhas) + "\n", encoding="utf-8")
 
-    print(f"[OK] dimensões e log gravados em {outdir}")
+    try:
+        destino = outdir.relative_to(RAIZ)
+    except ValueError:
+        destino = outdir
+    print(f"[OK] dimensões e log gravados em {destino}")
     return resumos
 
 
