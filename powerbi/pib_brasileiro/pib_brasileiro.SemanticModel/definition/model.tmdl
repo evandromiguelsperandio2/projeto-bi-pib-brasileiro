@@ -1,0 +1,29 @@
+model pib_brasileiro
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Parameters
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["PastaDados","dim_calendario","dim_serie","fato_pib_volume","fato_pib_volume_sazonal","fato_pib_corrente","fato_pib_taxa"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_calendario
+ref table dim_serie
+ref table fato_pib_volume
+ref table fato_pib_volume_sazonal
+ref table fato_pib_corrente
+ref table fato_pib_taxa
+ref table _Medidas
+
+ref cultureInfo pt-BR
+

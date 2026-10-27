@@ -296,7 +296,7 @@ registro foi descartado.
 | D3 | Valor original só existia como texto | Manter a coluna `valor_txt` | Rastreabilidade: cada número pode ser conferido contra o SIDRA | 9.328 |
 | D4 | Sem colunas de tempo utilizáveis | Derivar `trimestre`, `ano` e `data` (1º dia do trimestre) | Necessário para o modelo em estrela e para inteligência de tempo no DAX | 9.328 |
 | D5 | Rótulo do trimestre só na 1ª coluna do bloco | Propagar o rótulo para todas as séries do bloco | Sem isso, os registros não podem ser identificados | 9.328 |
-| D6 | Tabela 5932 traz três variáveis de taxa | Usar apenas "taxa trimestral vs. mesmo trimestre do ano anterior" | Evita métricas duplicadas e é a base do indicador YoY | 2.332 |
+| D6 | O export da 5932 foi feito com apenas a variável de taxa trimestral | Nenhum filtro no script: o CSV já veio com uma variável | Evita métricas duplicadas e é a base do indicador YoY | 2.332 |
 | D7 | Séries vêm agregadas e desagregadas juntas | Não agregar nem filtrar nada | Preserva o dado original; o modelo separa por `nivel` na `dim_serie` | 0 |
 | D8 | Nenhum valor ausente, especial ou duplicado | Nenhum descarte | Não havia o que tratar | 0 |
 

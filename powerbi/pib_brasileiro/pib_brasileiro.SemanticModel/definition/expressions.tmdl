@@ -1,0 +1,6 @@
+expression PastaDados = "C:/Users/Aluno/pib_analise/repo/dados" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 74663572-9172-5677-9bbe-db04ee99ea3a
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
+

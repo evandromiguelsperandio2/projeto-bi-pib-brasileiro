@@ -1,0 +1,87 @@
+table fato_pib_volume_sazonal
+	lineageTag: a72eba23-4b88-5793-8a41-36d0f87437a7
+
+	column trimestre_txt
+		dataType: string
+		isHidden
+		lineageTag: ebfe7e4c-c46e-5750-93bc-ef5806f78e3d
+		summarizeBy: none
+		sourceColumn: trimestre_txt
+
+		annotation SummarizationSetBy = Automatic
+
+	column serie
+		dataType: string
+		isHidden
+		lineageTag: 95f0e4a7-69d1-5325-8f09-8f16047da89c
+		summarizeBy: none
+		sourceColumn: serie
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_txt
+		dataType: string
+		isHidden
+		lineageTag: 58f1d2d9-16ca-572a-9df0-95e702635605
+		summarizeBy: none
+		sourceColumn: valor_txt
+
+		annotation SummarizationSetBy = Automatic
+
+	column unidade
+		dataType: string
+		isHidden
+		lineageTag: 06f294c6-1673-5bdf-86c0-fbde5f0fff75
+		summarizeBy: none
+		sourceColumn: unidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor
+		dataType: double
+		lineageTag: d05e3a73-57ae-5c48-be7c-ec624793a9af
+		summarizeBy: none
+		sourceColumn: valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column trimestre
+		dataType: int64
+		isHidden
+		lineageTag: 273229a6-5ca5-5106-bac2-5e1474078cfb
+		summarizeBy: none
+		sourceColumn: trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano
+		dataType: int64
+		isHidden
+		lineageTag: b5eec19a-cece-529b-8e66-6c507e06790a
+		summarizeBy: none
+		sourceColumn: ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column data
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: efa9ae9b-bec5-5748-b226-9e8658d6456c
+		summarizeBy: none
+		sourceColumn: data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition fato_pib_volume_sazonal = m
+		mode: import
+		source =
+				let
+						    Fonte = Csv.Document ( File.Contents ( PastaDados & "/fato_pib_volume_sazonal.csv" ), [ Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv ] ),
+						    Cabecalho = Table.PromoteHeaders ( Fonte, [ PromoteAllScalars = true ] ),
+						    Tipos = Table.TransformColumnTypes ( Cabecalho, { { "valor", type number }, { "trimestre", Int64.Type }, { "ano", Int64.Type }, { "data", type date } }, "en-US" )
+						in
+						    Tipos
+

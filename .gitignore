@@ -18,3 +18,8 @@ desktop.ini
 
 # Material de terceiros (PDFs da disciplina) — mantido apenas localmente
 referencias/
+
+# Power BI Project — cache e configurações locais
+**/.pbi/localSettings.json
+**/.pbi/editorSettings.json
+**/.pbi/cache.abf

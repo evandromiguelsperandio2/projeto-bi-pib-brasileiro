@@ -1,0 +1,122 @@
+table dim_calendario
+	lineageTag: d8eb06db-1e6d-5829-9e40-0895c541ce28
+	dataCategory: Time
+
+	column data
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: efa9ae9b-bec5-5748-b226-9e8658d6456c
+		summarizeBy: none
+		sourceColumn: data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ano
+		dataType: int64
+		formatString: 0
+		lineageTag: b5eec19a-cece-529b-8e66-6c507e06790a
+		summarizeBy: none
+		sourceColumn: ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column trimestre
+		dataType: int64
+		formatString: 0
+		lineageTag: 273229a6-5ca5-5106-bac2-5e1474078cfb
+		summarizeBy: none
+		sourceColumn: trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column trimestre_txt
+		dataType: string
+		lineageTag: ebfe7e4c-c46e-5750-93bc-ef5806f78e3d
+		summarizeBy: none
+		sourceColumn: trimestre_txt
+		sortByColumn: data
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_trimestre
+		dataType: string
+		lineageTag: 8316cc21-91e8-50f4-8233-d04723999bce
+		summarizeBy: none
+		sourceColumn: ano_trimestre
+		sortByColumn: data
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes
+		dataType: int64
+		formatString: 0
+		lineageTag: f25074f7-5d58-5615-bef5-dfd2296e137a
+		summarizeBy: none
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_mes
+		dataType: string
+		lineageTag: 51eeaefb-7207-5595-9e62-92aefd0e8abf
+		summarizeBy: none
+		sourceColumn: nome_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_mes
+		dataType: string
+		lineageTag: 053b50c8-7f51-5c36-b3e0-0209cda004a2
+		summarizeBy: none
+		sourceColumn: ano_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia
+		dataType: int64
+		formatString: 0
+		lineageTag: d4adf1ac-7047-5c36-a6d1-4f61e7646c80
+		summarizeBy: none
+		sourceColumn: dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_dia_semana
+		dataType: string
+		lineageTag: 4b9a7af1-d7d9-5a70-a1dc-bcde5d0d6980
+		summarizeBy: none
+		sourceColumn: nome_dia_semana
+
+		annotation SummarizationSetBy = Automatic
+
+	column eh_fim_trimestre
+		dataType: boolean
+		isHidden
+		lineageTag: 4d39aaf2-9495-5c0a-82b4-8cd5cb59759e
+		summarizeBy: none
+		sourceColumn: eh_fim_trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_parcial
+		dataType: boolean
+		isHidden
+		lineageTag: 0856c709-d108-5aaf-8e95-26065fd11815
+		summarizeBy: none
+		sourceColumn: ano_parcial
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_calendario = m
+		mode: import
+		source =
+				let
+						    Fonte = Csv.Document ( File.Contents ( PastaDados & "/dim_calendario.csv" ), [ Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv ] ),
+						    Cabecalho = Table.PromoteHeaders ( Fonte, [ PromoteAllScalars = true ] ),
+						    Tipos = Table.TransformColumnTypes ( Cabecalho, { { "ano", Int64.Type }, { "trimestre", Int64.Type }, { "mes", Int64.Type }, { "dia", Int64.Type }, { "data", type date }, { "eh_fim_trimestre", type logical }, { "ano_parcial", type logical } }, "en-US" )
+						in
+						    Tipos
+

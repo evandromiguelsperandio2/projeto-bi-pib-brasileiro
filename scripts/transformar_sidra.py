@@ -26,10 +26,11 @@ Tabelas:
 from __future__ import annotations
 
 import argparse
+import calendar
 import csv
 import re
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -306,8 +307,20 @@ def dimensao_tempo(registros: list[dict]) -> list[dict]:
     return sorted(vistos.values(), key=lambda x: x["data"])
 
 
-def dimensao_serie(todas_as_series: list[str]) -> list[dict]:
+# Ordem de exibição das cores no Power BI: o maior setor recebe a primeira cor
+# da paleta. Mantém Serviços = azul, Indústria = laranja, Agropecuária = verde.
+ORDEM_COR = {
+    "Serviços - total": 1,
+    "Indústria - total": 2,
+    "Agropecuária - total": 3,
+}
+
+
+def dimensao_serie(
+    todas_as_series: list[str], series_por_tabela: dict[str, list[str]]
+) -> list[dict]:
     ordem = {s: i for i, s in enumerate(todas_as_series)}
+    presentes = {codigo: set(series) for codigo, series in series_por_tabela.items()}
     registros = []
     for serie in todas_as_series:
         grupo, subgrupo, nivel, ordem_negocio = CLASSIFICACAO.get(
@@ -320,10 +333,80 @@ def dimensao_serie(todas_as_series: list[str]) -> list[dict]:
                 "subgrupo": subgrupo,
                 "nivel": nivel,
                 "ordem": ordem_negocio,
+                "ordem_cor": ORDEM_COR.get(serie, ordem_negocio + 3),
                 "ordem_origem": ordem[serie] + 1,
+                # Colunas-flag usadas no modelo do Power BI (evitam filtros
+                # fixos no DAX que anulariam o segmentador de série).
+                "eh_pib": "true" if serie == "PIB a preços de mercado" else "false",
+                "eh_valor_adicionado": (
+                    "true" if serie == "Valor adicionado a preços básicos" else "false"
+                ),
+                "eh_setor": "true" if nivel == "Setor" else "false",
+                "sinal": -1 if serie.startswith("Importação") else 1,
+                "em_1620": "true" if serie in presentes.get("1620", set()) else "false",
+                "em_1621": "true" if serie in presentes.get("1621", set()) else "false",
+                "em_1846": "true" if serie in presentes.get("1846", set()) else "false",
+                "em_5932": "true" if serie in presentes.get("5932", set()) else "false",
             }
         )
     return sorted(registros, key=lambda x: x["ordem"])
+
+
+MESES = [
+    "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+    "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+]
+DIAS_SEMANA = [
+    "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira",
+    "sexta-feira", "sábado", "domingo",
+]
+
+
+def dimensao_calendario(registros: list[dict]) -> list[dict]:
+    """Calendário diário contíguo, exigido para o Power BI marcar a tabela de datas.
+
+    A dim_tempo.csv continua no grão trimestral (106 linhas). O Power BI, porém,
+    só aceita marcar como tabela de datas uma coluna com todos os dias, sem
+    buracos. Este calendário vai do primeiro dia do primeiro trimestre ao último
+    dia do último trimestre observado.
+    """
+    inicios = sorted({r["data"] for r in registros})
+    inicio = date.fromisoformat(inicios[0])
+    ultimo = date.fromisoformat(inicios[-1])
+    mes_fim = 3 * ((ultimo.month - 1) // 3 + 1)
+    fim = date(ultimo.year, mes_fim, calendar.monthrange(ultimo.year, mes_fim)[1])
+
+    trimestres_por_ano: dict[int, set[int]] = {}
+    for r in registros:
+        trimestres_por_ano.setdefault(r["ano"], set()).add(r["trimestre"])
+    anos_parciais = {ano for ano, ts in trimestres_por_ano.items() if len(ts) < 4}
+
+    linhas = []
+    dia = inicio
+    while dia <= fim:
+        trimestre = (dia.month - 1) // 3 + 1
+        mes_do_fim = 3 * trimestre
+        fim_do_trimestre = date(
+            dia.year, mes_do_fim, calendar.monthrange(dia.year, mes_do_fim)[1]
+        )
+        linhas.append(
+            {
+                "data": dia.isoformat(),
+                "ano": dia.year,
+                "trimestre": trimestre,
+                "trimestre_txt": f"{trimestre}º trimestre {dia.year}",
+                "ano_trimestre": f"{dia.year}-T{trimestre}",
+                "mes": dia.month,
+                "nome_mes": MESES[dia.month - 1],
+                "ano_mes": f"{dia.year}-{dia.month:02d}",
+                "dia": dia.day,
+                "nome_dia_semana": DIAS_SEMANA[dia.weekday()],
+                "eh_fim_trimestre": "true" if dia == fim_do_trimestre else "false",
+                "ano_parcial": "true" if dia.year in anos_parciais else "false",
+            }
+        )
+        dia += timedelta(days=1)
+    return linhas
 
 
 def executar(indir: Path, outdir: Path) -> list[tuple[str, dict, dict]]:
@@ -338,6 +421,7 @@ def executar(indir: Path, outdir: Path) -> list[tuple[str, dict, dict]]:
 
     resumos = []
     todas_as_series: list[str] = []
+    series_por_tabela: dict[str, list[str]] = {}
     registros_por_tabela: dict[str, list[dict]] = {}
 
     for codigo, cfg in TABELAS.items():
@@ -348,6 +432,7 @@ def executar(indir: Path, outdir: Path) -> list[tuple[str, dict, dict]]:
         registros_por_tabela[codigo] = registros
         escrever_csv(outdir / cfg["saida"], COLUNAS, registros)
         resumos.append((codigo, cfg, resumo))
+        series_por_tabela[codigo] = resumo["series"]
         for serie in resumo["series"]:
             if serie not in todas_as_series:
                 todas_as_series.append(serie)
@@ -364,10 +449,29 @@ def executar(indir: Path, outdir: Path) -> list[tuple[str, dict, dict]]:
         ["data", "ano", "trimestre", "trimestre_txt", "ano_trimestre"],
         tempo,
     )
-    serie = dimensao_serie(todas_as_series)
+    calendario = dimensao_calendario(registros_por_tabela["1620"])
+    escrever_csv(
+        outdir / "dim_calendario.csv",
+        [
+            "data", "ano", "trimestre", "trimestre_txt", "ano_trimestre",
+            "mes", "nome_mes", "ano_mes", "dia", "nome_dia_semana",
+            "eh_fim_trimestre", "ano_parcial",
+        ],
+        calendario,
+    )
+    print(
+        f"[OK] dim_calendario.csv: {len(calendario)} dias "
+        f"({calendario[0]['data']} a {calendario[-1]['data']})"
+    )
+
+    serie = dimensao_serie(todas_as_series, series_por_tabela)
     escrever_csv(
         outdir / "dim_serie.csv",
-        ["serie", "grupo", "subgrupo", "nivel", "ordem", "ordem_origem"],
+        [
+            "serie", "grupo", "subgrupo", "nivel", "ordem", "ordem_cor",
+            "ordem_origem", "eh_pib", "eh_valor_adicionado", "eh_setor", "sinal",
+            "em_1620", "em_1621", "em_1846", "em_5932",
+        ],
         serie,
     )
 
@@ -403,6 +507,11 @@ def executar(indir: Path, outdir: Path) -> list[tuple[str, dict, dict]]:
         "   - valor_txt preservado para auditoria; valor convertido para numérico.",
         "   - Derivados: trimestre (1-4), ano, data (1º dia do trimestre).",
         "   - Séries mantidas exatamente como no SIDRA (sem agregações).",
+        f"   - dim_calendario.csv: calendário diário contíguo ({calendario[0]['data']} a {calendario[-1]['data']}),",
+        "     necessário para o Power BI marcar a tabela como tabela de datas; a",
+        "     dim_tempo.csv permanece no grão trimestral como referência.",
+        "   - dim_serie.csv recebe as colunas-flag usadas no modelo: eh_pib,",
+        "     eh_valor_adicionado, eh_setor, sinal e em_1620/1621/1846/5932.",
         "   - Tabela 5932: usada a variável 'Taxa trimestral (em relação ao mesmo",
         "     período do ano anterior)', conforme recorte definido.",
         "",
@@ -436,7 +545,8 @@ def executar(indir: Path, outdir: Path) -> list[tuple[str, dict, dict]]:
         "   - fato_pib_volume_sazonal.csv (1621)",
         "   - fato_pib_corrente.csv (1846)",
         "   - fato_pib_taxa.csv (5932)",
-        "   - dim_tempo.csv / dim_serie.csv",
+        "   - dim_tempo.csv (106 trimestres) / dim_calendario.csv (diário)",
+        "   - dim_serie.csv (com colunas-flag para o Power BI)",
         "   - log_etl.txt",
     ]
     (outdir / "log_etl.txt").write_text("\n".join(linhas) + "\n", encoding="utf-8")

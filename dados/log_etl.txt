@@ -1,5 +1,5 @@
 LOG DE ETL - PROJETO BI / TEMA 12 - PIB BRASILEIRO
-Data de execução: 2026-10-23
+Data de execução: 2026-10-26
 Data de acesso às fontes: 2026-10-20
 
 1. FONTES (SIDRA/IBGE)
@@ -34,6 +34,11 @@ Data de acesso às fontes: 2026-10-20
    - valor_txt preservado para auditoria; valor convertido para numérico.
    - Derivados: trimestre (1-4), ano, data (1º dia do trimestre).
    - Séries mantidas exatamente como no SIDRA (sem agregações).
+   - dim_calendario.csv: calendário diário contíguo (2000-01-01 a 2026-06-30),
+     necessário para o Power BI marcar a tabela como tabela de datas; a
+     dim_tempo.csv permanece no grão trimestral como referência.
+   - dim_serie.csv recebe as colunas-flag usadas no modelo: eh_pib,
+     eh_valor_adicionado, eh_setor, sinal e em_1620/1621/1846/5932.
    - Tabela 5932: usada a variável 'Taxa trimestral (em relação ao mesmo
      período do ano anterior)', conforme recorte definido.
 
@@ -64,5 +69,6 @@ Data de acesso às fontes: 2026-10-20
    - fato_pib_volume_sazonal.csv (1621)
    - fato_pib_corrente.csv (1846)
    - fato_pib_taxa.csv (5932)
-   - dim_tempo.csv / dim_serie.csv
+   - dim_tempo.csv (106 trimestres) / dim_calendario.csv (diário)
+   - dim_serie.csv (com colunas-flag para o Power BI)
    - log_etl.txt

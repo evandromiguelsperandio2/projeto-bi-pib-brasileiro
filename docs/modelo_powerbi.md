@@ -1,3 +1,9 @@
+> **Atualização de 26/10/2026 — modelo entregue.** O modelo em
+> `powerbi/pib_brasileiro/` usa `dim_calendario.csv` (calendário **diário**) como tabela
+> de datas; as colunas-flag já vêm em `dim_serie.csv`. Onde este guia citar `dim_tempo`
+> ou a criação das flags no Power Query, leia `dim_calendario` e "as colunas já estão no
+> CSV". Roteiro atualizado: [`etapa04_roteiro.md`](etapa04_roteiro.md).
+
 # Power BI — importação, modelo e identidade visual
 
 **Projeto BI · Tema 12 — PIB Brasileiro · Evandro Miguel**

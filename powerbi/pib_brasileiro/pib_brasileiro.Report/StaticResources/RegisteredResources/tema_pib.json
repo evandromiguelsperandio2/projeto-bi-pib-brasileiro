@@ -1,0 +1,41 @@
+{
+  "name": "PIB Brasil",
+  "dataColors": [
+    "#2A78D6",
+    "#EB6834",
+    "#1BAF7A",
+    "#EDA100",
+    "#E87BA4",
+    "#008300",
+    "#6250D6",
+    "#E34948"
+  ],
+  "background": "#FCFCFB",
+  "foreground": "#0B0B0B",
+  "tableAccent": "#2A78D6",
+  "good": "#006300",
+  "neutral": "#898781",
+  "bad": "#D03B3B",
+  "textClasses": {
+    "callout": {
+      "color": "#0B0B0B",
+      "fontSize": 24,
+      "fontFace": "Segoe UI"
+    },
+    "title": {
+      "color": "#0B0B0B",
+      "fontSize": 14,
+      "fontFace": "Segoe UI Semibold"
+    },
+    "header": {
+      "color": "#52514E",
+      "fontSize": 11,
+      "fontFace": "Segoe UI Semibold"
+    },
+    "label": {
+      "color": "#52514E",
+      "fontSize": 10,
+      "fontFace": "Segoe UI"
+    }
+  }
+}

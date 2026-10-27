@@ -1,0 +1,32 @@
+relationship 0506106a-0ed9-5885-88f2-994a56f5004f
+	fromColumn: fato_pib_volume.data
+	toColumn: dim_calendario.data
+
+relationship 10a8cd23-d24d-515e-a9f1-34d4d30cdb5d
+	fromColumn: fato_pib_volume.serie
+	toColumn: dim_serie.serie
+
+relationship 78ccc7a2-7d26-55ff-b3b9-232493274fa0
+	fromColumn: fato_pib_volume_sazonal.data
+	toColumn: dim_calendario.data
+
+relationship 493fb872-ae1c-5748-badb-1252325599d1
+	fromColumn: fato_pib_volume_sazonal.serie
+	toColumn: dim_serie.serie
+
+relationship 7b356e5c-1610-5769-9814-be6bc59bd0f1
+	fromColumn: fato_pib_corrente.data
+	toColumn: dim_calendario.data
+
+relationship d19eac17-4050-5fc9-92e4-c55edc12b71c
+	fromColumn: fato_pib_corrente.serie
+	toColumn: dim_serie.serie
+
+relationship b0f073b5-0114-5812-be82-9dd2ac6eca7f
+	fromColumn: fato_pib_taxa.data
+	toColumn: dim_calendario.data
+
+relationship f3caa7f3-5482-5a33-9b54-5e082fa61446
+	fromColumn: fato_pib_taxa.serie
+	toColumn: dim_serie.serie
+

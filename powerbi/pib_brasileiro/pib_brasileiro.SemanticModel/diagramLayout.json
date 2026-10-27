@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 992.8270828180506,
+            "y": 328.95837919375526
+          },
+          "nodeIndex": "_Medidas",
+          "nodeLineageTag": "c31f4fdf-3a72-5c52-876f-0ccead64127e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 536.04491311410447,
+            "y": 278.94358086689363
+          },
+          "nodeIndex": "dim_calendario",
+          "nodeLineageTag": "d8eb06db-1e6d-5829-9e40-0895c541ce28",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 247.58305333712849,
+            "y": 278.9997932441147
+          },
+          "nodeIndex": "dim_serie",
+          "nodeLineageTag": "02681c9b-adfe-54d9-914a-98a25c023f02",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": -45.804526704588966
+          },
+          "nodeIndex": "fato_pib_corrente",
+          "nodeLineageTag": "e1f0e5db-eec7-5ed6-8594-fb4f5fbe68c3",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 758.82708281805071,
+            "y": 631.428602633823
+          },
+          "nodeIndex": "fato_pib_taxa",
+          "nodeLineageTag": "766102c1-9e8e-5660-b738-c1ae7d159144",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 232.72553354447535,
+            "y": 635.91675838751075
+          },
+          "nodeIndex": "fato_pib_volume",
+          "nodeLineageTag": "7f4ed2d4-dc85-5441-8a21-87929a76b1e7",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 577.27769753927964,
+            "y": -50
+          },
+          "nodeIndex": "fato_pib_volume_sazonal",
+          "nodeLineageTag": "a72eba23-4b88-5793-8a41-36d0f87437a7",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

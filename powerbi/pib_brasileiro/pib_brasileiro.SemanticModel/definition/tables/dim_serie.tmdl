@@ -1,0 +1,149 @@
+table dim_serie
+	lineageTag: 02681c9b-adfe-54d9-914a-98a25c023f02
+
+	column serie
+		dataType: string
+		lineageTag: 95f0e4a7-69d1-5325-8f09-8f16047da89c
+		summarizeBy: none
+		sourceColumn: serie
+		sortByColumn: ordem_cor
+
+		annotation SummarizationSetBy = Automatic
+
+	column grupo
+		dataType: string
+		lineageTag: 937fb993-4e6e-5f6d-9500-fdb6c5f6105c
+		summarizeBy: none
+		sourceColumn: grupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column subgrupo
+		dataType: string
+		lineageTag: 6b62e81c-c51c-58e8-8c9d-76c3421c194b
+		summarizeBy: none
+		sourceColumn: subgrupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel
+		dataType: string
+		lineageTag: 9077a10e-6fb1-5e19-9918-59df84e8607c
+		summarizeBy: none
+		sourceColumn: nivel
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 55b6e567-1314-5183-8a30-2dff6aa1b225
+		summarizeBy: none
+		sourceColumn: ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordem_cor
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6d197119-fe03-53f2-95f9-cdf56ee85426
+		summarizeBy: none
+		sourceColumn: ordem_cor
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordem_origem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: feecb22c-cbf9-53c5-a7e6-ff27bde9c2c6
+		summarizeBy: none
+		sourceColumn: ordem_origem
+
+		annotation SummarizationSetBy = Automatic
+
+	column eh_pib
+		dataType: boolean
+		isHidden
+		lineageTag: 7e366d9a-87e7-534f-aa07-c47fd891d75e
+		summarizeBy: none
+		sourceColumn: eh_pib
+
+		annotation SummarizationSetBy = Automatic
+
+	column eh_valor_adicionado
+		dataType: boolean
+		isHidden
+		lineageTag: 63c42b20-7acf-5dff-8201-fa66918f0c88
+		summarizeBy: none
+		sourceColumn: eh_valor_adicionado
+
+		annotation SummarizationSetBy = Automatic
+
+	column eh_setor
+		dataType: boolean
+		isHidden
+		lineageTag: 07b5ef5b-fc40-5a77-a548-96ecc892dc6c
+		summarizeBy: none
+		sourceColumn: eh_setor
+
+		annotation SummarizationSetBy = Automatic
+
+	column sinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9aa86dd8-5b7f-57f5-8e31-0158cc399485
+		summarizeBy: none
+		sourceColumn: sinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column em_1620
+		dataType: boolean
+		isHidden
+		lineageTag: d27ec692-be5e-5070-a463-3cafb4f30813
+		summarizeBy: none
+		sourceColumn: em_1620
+
+		annotation SummarizationSetBy = Automatic
+
+	column em_1621
+		dataType: boolean
+		isHidden
+		lineageTag: a7eec117-82e2-520b-8fbb-806c150e9bec
+		summarizeBy: none
+		sourceColumn: em_1621
+
+		annotation SummarizationSetBy = Automatic
+
+	column em_1846
+		dataType: boolean
+		isHidden
+		lineageTag: fd4c28b3-2701-533b-8cd6-01fad09fd130
+		summarizeBy: none
+		sourceColumn: em_1846
+
+		annotation SummarizationSetBy = Automatic
+
+	column em_5932
+		dataType: boolean
+		isHidden
+		lineageTag: 15bd2856-e3b1-512d-b2fc-0274a112d57d
+		summarizeBy: none
+		sourceColumn: em_5932
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_serie = m
+		mode: import
+		source =
+				let
+						    Fonte = Csv.Document ( File.Contents ( PastaDados & "/dim_serie.csv" ), [ Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv ] ),
+						    Cabecalho = Table.PromoteHeaders ( Fonte, [ PromoteAllScalars = true ] ),
+						    Tipos = Table.TransformColumnTypes ( Cabecalho, { { "ordem", Int64.Type }, { "ordem_cor", Int64.Type }, { "ordem_origem", Int64.Type }, { "sinal", Int64.Type }, { "eh_pib", type logical }, { "eh_valor_adicionado", type logical }, { "eh_setor", type logical }, { "em_1620", type logical }, { "em_1621", type logical }, { "em_1846", type logical }, { "em_5932", type logical } }, "en-US" )
+						in
+						    Tipos
+

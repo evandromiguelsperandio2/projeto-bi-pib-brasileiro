@@ -1,0 +1,312 @@
+table _Medidas
+	lineageTag: c31f4fdf-3a72-5c52-876f-0ccead64127e
+
+	/// Índice médio de volume do PIB no contexto selecionado.
+	measure 'PIB real (índice)' = ```
+				CALCULATE (
+				    AVERAGE ( fato_pib_volume[valor] ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_serie[eh_pib] = TRUE ()
+				)
+			```
+		formatString: 0.00
+		displayFolder: 01 PIB
+		lineageTag: d03d604a-b8e8-553d-b8a5-cc917c4a05eb
+
+	/// Variação real contra o mesmo período do ano anterior.
+	measure 'PIB real YoY %' = ```
+				VAR atual = [PIB real (índice)]
+				VAR anterior = CALCULATE ( [PIB real (índice)], SAMEPERIODLASTYEAR ( dim_calendario[data] ) )
+				RETURN DIVIDE ( atual - anterior, anterior )
+			```
+		formatString: 0.0%
+		displayFolder: 01 PIB
+		lineageTag: 56b5613d-1f79-5960-8ce7-6145ecb4be85
+
+	/// Variação contra o trimestre anterior, com ajuste sazonal.
+	measure 'PIB real QoQ % (sazonal)' = ```
+				VAR atual = CALCULATE (
+				    AVERAGE ( fato_pib_volume_sazonal[valor] ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_serie[eh_pib] = TRUE ()
+				)
+				VAR anterior = CALCULATE (
+				    AVERAGE ( fato_pib_volume_sazonal[valor] ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_serie[eh_pib] = TRUE (),
+				    DATEADD ( dim_calendario[data], -1, QUARTER )
+				)
+				RETURN DIVIDE ( atual - anterior, anterior )
+			```
+		formatString: 0.0%
+		displayFolder: 01 PIB
+		lineageTag: 1dc891d0-133f-5e92-ae4f-74e965231fc2
+
+	/// PIB a preços correntes, em reais.
+	measure 'PIB nominal (R$)' = ```
+				CALCULATE (
+				    SUM ( fato_pib_corrente[valor] ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_serie[eh_pib] = TRUE ()
+				) * 1000000
+			```
+		formatString: #,##0
+		displayFolder: 01 PIB
+		lineageTag: c172a03d-fb8d-5f82-a38c-5cec796e7cf2
+
+	/// PIB a preços correntes, em trilhões de reais.
+	measure 'PIB nominal (R$ trilhões)' = ```
+				DIVIDE ( [PIB nominal (R$)], 1E12 )
+			```
+		formatString: 0.00
+		displayFolder: 01 PIB
+		lineageTag: a4ed3871-5cc3-51bb-be3c-de727a418750
+
+	/// Média móvel de quatro trimestres do índice do PIB.
+	measure 'Média móvel 4T' = ```
+				CALCULATE (
+				    AVERAGE ( fato_pib_volume[valor] ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_serie[eh_pib] = TRUE (),
+				    DATESINPERIOD ( dim_calendario[data], MAX ( dim_calendario[data] ), -4, QUARTER )
+				)
+			```
+		formatString: 0.00
+		displayFolder: 01 PIB
+		lineageTag: ea74ee08-1639-5339-86f8-19eb7f328af6
+
+	/// Crescimento composto anual do PIB real no período selecionado.
+	measure 'CAGR do período' = ```
+				VAR ano_ini = MIN ( dim_calendario[ano] )
+				VAR ano_fim = MAX ( dim_calendario[ano] )
+				VAR n = ano_fim - ano_ini
+				VAR valor_ini = CALCULATE ( [PIB real (índice)], dim_calendario[ano] = ano_ini )
+				VAR valor_fim = CALCULATE ( [PIB real (índice)], dim_calendario[ano] = ano_fim )
+				RETURN IF ( n > 0, ( valor_fim / valor_ini ) ^ ( 1 / n ) - 1 )
+			```
+		formatString: 0.00%
+		displayFolder: 01 PIB
+		lineageTag: a62221d3-8884-58e8-99f1-089eedc2b840
+
+	/// Deflator implícito: crescimento nominal menos o real.
+	measure 'Inflação implícita (YoY)' = ```
+				VAR g_nominal = DIVIDE (
+				    CALCULATE ( [PIB nominal (R$)], dim_calendario[ano] = MAX ( dim_calendario[ano] ) ),
+				    CALCULATE ( [PIB nominal (R$)], dim_calendario[ano] = MAX ( dim_calendario[ano] ) - 1 )
+				) - 1
+				VAR g_real = [PIB real YoY %]
+				RETURN DIVIDE ( 1 + g_nominal, 1 + g_real ) - 1
+			```
+		formatString: 0.00%
+		displayFolder: 01 PIB
+		lineageTag: 7e3e1c4d-0069-5bd4-93f4-22d6b385d3ba
+
+	/// Índice de volume da série em contexto (respeita o segmentador).
+	measure 'Índice de volume (série selecionada)' = ```
+				AVERAGE ( fato_pib_volume[valor] )
+			```
+		formatString: 0.00
+		displayFolder: 02 Setores
+		lineageTag: e69006e6-58ea-5996-9ea0-95ee78ac0a9f
+
+	/// Peso da série no valor adicionado a preços correntes.
+	measure 'Participação no VA %' = ```
+				VAR numerador = SUM ( fato_pib_corrente[valor] )
+				VAR denominador = CALCULATE (
+				    SUM ( fato_pib_corrente[valor] ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_serie[eh_valor_adicionado] = TRUE ()
+				)
+				RETURN DIVIDE ( numerador, denominador )
+			```
+		formatString: 0.0%
+		displayFolder: 02 Setores
+		lineageTag: e08b230a-eb20-5aa7-aad6-223f98777761
+
+	/// Contribuição da série ao crescimento do valor adicionado, em pontos percentuais.
+	measure 'Contribuição ao crescimento (p.p.)' = ```
+				VAR ano_atual = MAX ( dim_calendario[ano] )
+				VAR indice_atual = CALCULATE ( AVERAGE ( fato_pib_volume[valor] ), dim_calendario[ano] = ano_atual )
+				VAR indice_anterior = CALCULATE ( AVERAGE ( fato_pib_volume[valor] ), dim_calendario[ano] = ano_atual - 1 )
+				VAR crescimento = DIVIDE ( indice_atual, indice_anterior ) - 1
+				VAR peso_anterior = DIVIDE (
+				    CALCULATE ( SUM ( fato_pib_corrente[valor] ), dim_calendario[ano] = ano_atual - 1 ),
+				    CALCULATE (
+				        SUM ( fato_pib_corrente[valor] ),
+				        dim_calendario[ano] = ano_atual - 1,
+				        REMOVEFILTERS ( dim_serie ),
+				        dim_serie[eh_valor_adicionado] = TRUE ()
+				    )
+				)
+				RETURN crescimento * peso_anterior * 100
+			```
+		formatString: 0.00
+		displayFolder: 02 Setores
+		lineageTag: 36c997fd-e4b3-535e-a5cf-3d6aa751fa05
+
+	/// Variação real de cada série em 2026-T2, independente do filtro de ano.
+	measure 'Crescimento 2026-T2 % (série)' = ```
+				VAR atual = CALCULATE (
+				    AVERAGE ( fato_pib_volume[valor] ),
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2026,
+				    dim_calendario[trimestre] = 2
+				)
+				VAR anterior = CALCULATE (
+				    AVERAGE ( fato_pib_volume[valor] ),
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2025,
+				    dim_calendario[trimestre] = 2
+				)
+				RETURN DIVIDE ( atual - anterior, anterior )
+			```
+		formatString: 0.0%
+		displayFolder: 02 Setores
+		lineageTag: 3a78bc7c-bed7-5995-ad8a-67f9550c4dae
+
+	/// Consumo + governo + FBCF + estoque + exportações - importações.
+	measure 'Demanda agregada (R$)' = ```
+				CALCULATE (
+				    SUMX (
+				        fato_pib_corrente,
+				        fato_pib_corrente[valor] * RELATED ( dim_serie[sinal] )
+				    ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_serie[nivel] = "Componente"
+				) * 1000000
+			```
+		formatString: #,##0
+		displayFolder: 03 Demanda
+		lineageTag: a9124a2b-18d2-5ec9-8258-9b7e9a18d49c
+
+	/// Demanda agregada em trilhões de reais.
+	measure 'Demanda agregada (R$ trilhões)' = ```
+				DIVIDE ( [Demanda agregada (R$)], 1E12 )
+			```
+		formatString: 0.00
+		displayFolder: 03 Demanda
+		lineageTag: dc05b6c4-562e-51e9-a246-36c0fc2bc0ff
+
+	/// Cartão do PIB nominal de 2025, independente de filtros.
+	measure 'PIB nominal 2025 (R$ trilhões)' = ```
+				CALCULATE (
+				    [PIB nominal (R$ trilhões)],
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2025
+				)
+			```
+		formatString: 0.00
+		displayFolder: 04 Apoio
+		lineageTag: 4db066a9-b839-5229-90f5-a00efd98f9de
+
+	/// Crescimento real de 2025, independente de filtros.
+	measure 'PIB real 2025' = ```
+				CALCULATE (
+				    [PIB real YoY %],
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2025
+				)
+			```
+		formatString: 0.0%
+		displayFolder: 04 Apoio
+		lineageTag: d3c6d951-b64a-5d43-a16f-eacc10120d9e
+
+	/// Crescimento composto de 2000 a 2025.
+	measure 'CAGR 2000–2025' = ```
+				CALCULATE (
+				    [CAGR do período],
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] >= 2000,
+				    dim_calendario[ano] <= 2025
+				)
+			```
+		formatString: 0.00%
+		displayFolder: 04 Apoio
+		lineageTag: 5d95f958-1fd5-58fa-a4b8-b85687fa5fa5
+
+	/// Peso dos serviços no valor adicionado de 2025.
+	measure 'Serviços no VA 2025' = ```
+				CALCULATE (
+				    [Participação no VA %],
+				    REMOVEFILTERS ( dim_calendario ),
+				    REMOVEFILTERS ( dim_serie ),
+				    dim_calendario[ano] = 2025,
+				    dim_serie[serie] = "Serviços - total"
+				)
+			```
+		formatString: 0.0%
+		displayFolder: 04 Apoio
+		lineageTag: 1ca2b306-f438-51ff-8375-91d454f5bad7
+
+	/// Crescimento real do PIB em 2026-T2 contra 2025-T2.
+	measure 'PIB 2026-T2 YoY' = ```
+				CALCULATE (
+				    [PIB real YoY %],
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2026,
+				    dim_calendario[trimestre] = 2
+				)
+			```
+		formatString: 0.0%
+		displayFolder: 04 Apoio
+		lineageTag: 6236f881-60ad-54a6-8aec-c0ce91ed868b
+
+	/// Crescimento real do PIB em 2026-T2 contra 2026-T1.
+	measure 'PIB 2026-T2 QoQ' = ```
+				CALCULATE (
+				    [PIB real QoQ % (sazonal)],
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2026,
+				    dim_calendario[trimestre] = 2
+				)
+			```
+		formatString: 0.0%
+		displayFolder: 04 Apoio
+		lineageTag: 1078649a-c535-5842-bebe-99b214f5b9e1
+
+	/// Participação de cada setor no VA de 2025.
+	measure 'Participação 2025 %' = ```
+				CALCULATE (
+				    [Participação no VA %],
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2025
+				)
+			```
+		formatString: 0.0%
+		displayFolder: 04 Apoio
+		lineageTag: f435063a-86bf-5433-8d99-edc6645c1687
+
+	/// Contribuição de cada setor ao crescimento de 2025.
+	measure 'Contribuição 2025 (p.p.)' = ```
+				CALCULATE (
+				    [Contribuição ao crescimento (p.p.)],
+				    REMOVEFILTERS ( dim_calendario ),
+				    dim_calendario[ano] = 2025
+				)
+			```
+		formatString: 0.00
+		displayFolder: 04 Apoio
+		lineageTag: f3983853-2b72-5b24-82ff-f593851c8408
+
+	/// Aviso para não tratar 2026 como ano fechado.
+	measure 'É ano parcial' = ```
+				VAR _ano = MAX ( dim_calendario[ano] )
+				VAR _trimestres = CALCULATE (
+				    DISTINCTCOUNT ( dim_calendario[trimestre] ),
+				    dim_calendario[ano] = _ano,
+				    REMOVEFILTERS ( dim_calendario )
+				)
+				RETURN IF ( _trimestres < 4, "Período parcial", BLANK () )
+			```
+		displayFolder: 04 Apoio
+		lineageTag: 24113ab0-53c1-5a35-bca5-f3dabae249be
+
+	column _Medidas
+		lineageTag: 11ea28cc-5589-4e02-87d3-7b40ece7993c
+		isNameInferred
+		sourceColumn: [_Medidas]
+
+	partition _Medidas = calculated
+		mode: import
+		source = SELECTCOLUMNS ( { 1 }, "_Medidas", ''[Value] )
+

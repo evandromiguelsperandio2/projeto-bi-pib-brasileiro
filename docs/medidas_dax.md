@@ -1,3 +1,9 @@
+> **Atualização de 26/10/2026.** As medidas já estão implementadas em
+> `powerbi/pib_brasileiro/.../tables/_Medidas.tmdl`, usando `dim_calendario`. Onde este
+> documento citar `dim_tempo`, leia `dim_calendario`. `REMOVEFILTERS` aceita **uma tabela
+> por argumento**: `REMOVEFILTERS(dim_calendario, dim_serie)` gera erro; use dois
+> argumentos separados.
+
 # Medidas DAX — versão corrigida
 
 **Projeto BI · Tema 12 — PIB Brasileiro · Evandro Miguel**

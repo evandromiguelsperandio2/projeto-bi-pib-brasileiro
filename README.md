@@ -6,7 +6,7 @@
 ## Estrutura
 
 ```
-projeto_pib/
+.
 ├── dados_originais/                 # CSV brutos exportados do SIDRA (intocáveis)
 │   ├── tabela1620.csv
 │   ├── tabela1621.csv
@@ -17,7 +17,8 @@ projeto_pib/
 │   ├── fato_pib_volume_sazonal.csv  # 1621 — índice de volume com ajuste sazonal
 │   ├── fato_pib_corrente.csv        # 1846 — valores a preços correntes (R$ milhões)
 │   ├── fato_pib_taxa.csv            # 5932 — taxa trimestral vs. mesmo trimestre do ano anterior
-│   ├── dim_tempo.csv                # dimensão calendário trimestral
+│   ├── dim_tempo.csv                # dimensão trimestral (106 linhas, referência)
+│   ├── dim_calendario.csv           # calendário diário (tabela de datas do Power BI)
 │   ├── dim_serie.csv                # dimensão das séries (grupo, subgrupo, nível)
 │   ├── planilha_pib.xlsx            # a mesma base em Excel, já formatada
 │   └── log_etl.txt                  # log de decisões e validações (Etapa 02)
@@ -28,13 +29,22 @@ projeto_pib/
 │   ├── transformar_sidra.py         # ETL reproduzível dos CSV do SIDRA
 │   └── gerar_planilha.py            # gera a planilha .xlsx a partir dos CSV tratados
 ├── powerbi/
-│   └── tema_pib.json                # tema de cores validado (daltonismo e contraste)
+│   ├── tema_pib.json                # tema de cores validado (daltonismo e contraste)
+│   └── pib_brasileiro/              # Power BI Project (.pbip) com modelo e 5 páginas
 └── docs/
     ├── ficha_fontes.md              # ficha de fontes (Etapa 01)
     ├── analise_e_plano.md           # achados, modelo, DAX e páginas do dashboard
     ├── medidas_dax.md               # medidas DAX corrigidas e validadas
     └── modelo_powerbi.md            # importação, relacionamentos e identidade visual
 ```
+
+## Abrir no Power BI
+
+O projeto pronto está em `powerbi/pib_brasileiro/pib_brasileiro.pbip`. Abra o arquivo,
+clique em **Atualizar agora** e confira o cartão da capa (12,74). Para entregar a Etapa 04,
+use **Arquivo → Salvar como** e grave `powerbi/pib_brasileiro.pbix`. O roteiro completo,
+com o mapa das páginas, os números de conferência e a spec do Figma, está em
+[`docs/etapa04_roteiro.md`](docs/etapa04_roteiro.md).
 
 ## Como reproduzir o ETL
 

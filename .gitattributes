@@ -2,6 +2,7 @@
 *.py   text eol=lf
 *.md   text eol=lf
 *.csv  text eol=lf
+dados_originais/*.csv -text
 *.txt  text eol=lf
 *.pdf  binary
 *.pbix binary

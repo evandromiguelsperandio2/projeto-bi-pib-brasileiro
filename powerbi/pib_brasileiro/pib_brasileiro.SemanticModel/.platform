@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "PIB Brasileiro"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "74ab66f9-4129-54d9-b263-e0f14f144441"
+  }
+}

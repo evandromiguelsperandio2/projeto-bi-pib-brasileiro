@@ -1,24 +1,24 @@
-serie,grupo,subgrupo,nivel,ordem,ordem_origem
-Agropecuária - total,Agropecuária,Agropecuária,Setor,1,1
-Indústria - total,Indústria,Indústria,Setor,2,2
-Serviços - total,Serviços,Serviços,Setor,3,7
-Valor adicionado a preços básicos,Agregados,Valor adicionado,Agregado,4,15
-Impostos líquidos sobre produtos,Agregados,Impostos líquidos,Agregado,5,16
-PIB a preços de mercado,Agregados,PIB,Agregado,6,17
-Despesa de consumo das famílias,Demanda,Consumo das famílias,Componente,7,18
-Despesa de consumo da administração pública,Demanda,Consumo da administração pública,Componente,8,19
-Formação bruta de capital fixo,Demanda,Investimento (FBCF),Componente,9,20
-Variação de estoque,Demanda,Variação de estoque,Componente,10,23
-Exportação de bens e serviços,Setor externo,Exportação,Componente,11,21
-Importação de bens e serviços (-),Setor externo,Importação,Componente,12,22
-Indústrias extrativas,Indústria,Extrativa,Subsetor,21,3
-Indústrias de transformação,Indústria,Transformação,Subsetor,22,4
-"Eletricidade e gás, água, esgoto, atividades de gestão de resíduos",Indústria,"Eletricidade, gás e saneamento",Subsetor,23,5
-Construção,Indústria,Construção,Subsetor,24,6
-Comércio,Serviços,Comércio,Subsetor,31,8
-"Transporte, armazenagem e correio",Serviços,Transporte e correio,Subsetor,32,9
-Informação e comunicação,Serviços,Informação e comunicação,Subsetor,33,10
-"Atividades financeiras, de seguros e serviços relacionados",Serviços,Financeiras e seguros,Subsetor,34,11
-Atividades imobiliárias,Serviços,Imobiliárias,Subsetor,35,12
-Outras atividades de serviços,Serviços,Outros serviços,Subsetor,36,13
-"Administração, saúde e educação públicas e seguridade social",Serviços,"Administração pública, saúde e educação",Subsetor,37,14
+serie,grupo,subgrupo,nivel,ordem,ordem_cor,ordem_origem,eh_pib,eh_valor_adicionado,eh_setor,sinal,em_1620,em_1621,em_1846,em_5932
+Agropecuária - total,Agropecuária,Agropecuária,Setor,1,3,1,false,false,true,1,true,true,true,true
+Indústria - total,Indústria,Indústria,Setor,2,2,2,false,false,true,1,true,true,true,true
+Serviços - total,Serviços,Serviços,Setor,3,1,7,false,false,true,1,true,true,true,true
+Valor adicionado a preços básicos,Agregados,Valor adicionado,Agregado,4,7,15,false,true,false,1,true,true,true,true
+Impostos líquidos sobre produtos,Agregados,Impostos líquidos,Agregado,5,8,16,false,false,false,1,true,false,true,true
+PIB a preços de mercado,Agregados,PIB,Agregado,6,9,17,true,false,false,1,true,true,true,true
+Despesa de consumo das famílias,Demanda,Consumo das famílias,Componente,7,10,18,false,false,false,1,true,true,true,true
+Despesa de consumo da administração pública,Demanda,Consumo da administração pública,Componente,8,11,19,false,false,false,1,true,true,true,true
+Formação bruta de capital fixo,Demanda,Investimento (FBCF),Componente,9,12,20,false,false,false,1,true,true,true,true
+Variação de estoque,Demanda,Variação de estoque,Componente,10,13,23,false,false,false,1,false,false,true,false
+Exportação de bens e serviços,Setor externo,Exportação,Componente,11,14,21,false,false,false,1,true,true,true,true
+Importação de bens e serviços (-),Setor externo,Importação,Componente,12,15,22,false,false,false,-1,true,true,true,true
+Indústrias extrativas,Indústria,Extrativa,Subsetor,21,24,3,false,false,false,1,true,true,true,true
+Indústrias de transformação,Indústria,Transformação,Subsetor,22,25,4,false,false,false,1,true,true,true,true
+"Eletricidade e gás, água, esgoto, atividades de gestão de resíduos",Indústria,"Eletricidade, gás e saneamento",Subsetor,23,26,5,false,false,false,1,true,true,true,true
+Construção,Indústria,Construção,Subsetor,24,27,6,false,false,false,1,true,true,true,true
+Comércio,Serviços,Comércio,Subsetor,31,34,8,false,false,false,1,true,true,true,true
+"Transporte, armazenagem e correio",Serviços,Transporte e correio,Subsetor,32,35,9,false,false,false,1,true,true,true,true
+Informação e comunicação,Serviços,Informação e comunicação,Subsetor,33,36,10,false,false,false,1,true,true,true,true
+"Atividades financeiras, de seguros e serviços relacionados",Serviços,Financeiras e seguros,Subsetor,34,37,11,false,false,false,1,true,true,true,true
+Atividades imobiliárias,Serviços,Imobiliárias,Subsetor,35,38,12,false,false,false,1,true,true,true,true
+Outras atividades de serviços,Serviços,Outros serviços,Subsetor,36,39,13,false,false,false,1,true,true,true,true
+"Administração, saúde e educação públicas e seguridade social",Serviços,"Administração pública, saúde e educação",Subsetor,37,40,14,false,false,false,1,true,true,true,true
