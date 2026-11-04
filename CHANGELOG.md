@@ -8,7 +8,7 @@
 | 23/10/2026 | **02 — ETL** | Script e notebook executáveis; log de decisões; base tratada em formato longo; validações cruzadas |
 | 27/10/2026 | **03 — Consolidação e Power BI** | Base validada; calendário diário (`dim_calendario.csv`); flags na `dim_serie`; tema e modelo em estrela prontos no `.pbip` |
 | 30/10/2026 | **04 — Desenvolvimento** | `.pbip` funcional com 5 páginas, 23 medidas, navegação e segmentadores; roteiro e spec do Figma em `docs/etapa04_roteiro.md` |
-| 03/11/2026 | 05 — Finalização e Figma | *Previsto:* `.pbix` finalizado e arquivo do Figma |
+| 03/11/2026 | 05 — Finalização e Figma | Novo layout com sidebar escura e capa temática; matriz de contribuição em colunas empilhadas; tabela “Setores em números” estilizada; frames/fundos no `figma/`; PBIP reposicionado e navegação na lateral |
 | 06/11/2026 | 06 — Documentação técnica | *Previsto:* documento técnico do projeto |
 | 10/11/2026 | 07 — Montagem dos slides | *Previsto:* slides executivos em PDF |
 | 13/11/2026 | 08 — Apresentação executiva | *Previsto:* apresentação e demonstração do dashboard |

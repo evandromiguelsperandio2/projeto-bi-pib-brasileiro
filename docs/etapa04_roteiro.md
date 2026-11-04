@@ -2,6 +2,12 @@
 
 **Projeto BI · Tema 12 — PIB Brasileiro · Evandro Miguel**
 
+> **Atualização de 03/11/2026.** O layout final usa uma **sidebar escura à esquerda** e
+> uma capa temática. O PBIP foi reposicionado: os botões superiores viraram áreas
+> clicáveis invisíveis sobre a sidebar desenhada no fundo. Frames, fundos e o passo a
+> passo estão em [`figma/LEIA-ME.md`](../figma/LEIA-ME.md). O mapa de páginas e os
+> números de conferência abaixo continuam válidos.
+
 Este documento fecha a Etapa 03/04: o que já está pronto no projeto Power BI,
 como abrir, como salvar o `.pbix` e como reproduzir o layout no Figma.
 

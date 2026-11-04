@@ -41,10 +41,12 @@
 ## Abrir no Power BI
 
 O projeto pronto está em `powerbi/pib_brasileiro/pib_brasileiro.pbip`. Abra o arquivo,
-clique em **Atualizar agora** e confira o cartão da capa (12,74). Para entregar a Etapa 04,
-use **Arquivo → Salvar como** e grave `powerbi/pib_brasileiro.pbix`. O roteiro completo,
-com o mapa das páginas, os números de conferência e a spec do Figma, está em
-[`docs/etapa04_roteiro.md`](docs/etapa04_roteiro.md).
+clique em **Atualizar agora** e confira o cartão da capa (12,74). O layout final usa uma
+**sidebar escura à esquerda**; os fundos por página estão em `figma/fundos/` e devem ser
+aplicados como plano de fundo no Power BI. A entrega é o `.pbip`; se o professor pedir
+`.pbix`, use **Arquivo → Salvar como**. O passo a passo do Figma e da sidebar está em
+[`figma/LEIA-ME.md`](figma/LEIA-ME.md); o mapa das páginas e os números de conferência
+seguem em [`docs/etapa04_roteiro.md`](docs/etapa04_roteiro.md).
 
 ## Como reproduzir o ETL
 
